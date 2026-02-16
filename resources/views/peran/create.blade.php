@@ -1,0 +1,62 @@
+@extends('layout.app')
+
+@section('content')
+<div class="max-w-3xl mx-auto py-8 px-4">
+    <div class="mb-8">
+        <div class="flex items-center gap-4 mb-2">
+            <a href="{{ route('peran.index') }}" class="text-slate-400 hover:text-slate-600 transition-colors">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h2 class="text-3xl font-extrabold text-slate-900">Tambah Peran Baru</h2>
+        </div>
+        <p class="text-slate-600 ml-8">Definisikan kategori peran baru untuk pengguna sistem.</p>
+    </div>
+
+    @if($errors->any())
+    <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm">
+        <ul class="list-disc ml-5 text-sm text-red-600 font-medium">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    <div class="bg-white shadow-xl rounded-2xl border border-slate-200 overflow-hidden">
+        <form action="{{ route('peran.store') }}" method="POST" class="p-8 space-y-6">
+            @csrf
+
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Peran</label>
+                <input type="text" name="nama_peran" value="{{ old('nama_peran') }}" 
+                    class="w-full rounded-lg border-slate-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" 
+                    placeholder="Contoh: Administrator, Petugas PPK, atau Pencacah" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Slug (Opsional)</label>
+                <input type="text" name="slug" value="{{ old('slug') }}" 
+                    class="w-full rounded-lg border-slate-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition font-mono text-sm bg-slate-50" 
+                    placeholder="Kosongkan untuk membuat otomatis (contoh: petugas-ppk)">
+                <p class="mt-2 text-[10px] text-slate-400 italic font-medium uppercase tracking-tighter">Gunakan huruf kecil, angka, dan tanda hubung saja.</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Deskripsi</label>
+                <textarea name="deskripsi" rows="3" 
+                    class="w-full rounded-lg border-slate-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" 
+                    placeholder="Jelaskan tanggung jawab atau cakupan peran ini...">{{ old('deskripsi') }}</textarea>
+            </div>
+
+            <div class="pt-4 flex gap-3">
+                <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 uppercase tracking-widest">
+                    <i class="fas fa-save"></i> Simpan Peran
+                </button>
+                <a href="{{ route('peran.index') }}" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-all uppercase tracking-widest text-sm flex items-center">
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
